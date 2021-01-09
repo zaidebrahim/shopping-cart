@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./product.styles.css";
 
 const Product = (props) => {
   const {
+    id,
     brandName,
     productName,
     quantity,
@@ -10,7 +11,18 @@ const Product = (props) => {
     price,
     imageUrl,
     offerText,
+    onAddCart,
+    checkedOut,
   } = props;
+
+  useEffect(() => {
+    if (checkedOut) {
+      setQty(0);
+    }
+  }, [checkedOut]);
+
+  const [qty, setQty] = useState(0);
+
   return (
     <div className="product-container">
       <div className="left-container">
@@ -26,11 +38,41 @@ const Product = (props) => {
         <div>MRP {mrp}</div>
         <div className="price">₹ {price}</div>
         <div className="bottom-container">
-          <button>Add Cart</button>
+          <button
+            onClick={() => {
+              if (qty === 0) {
+                onAddCart(id, qty + 1, price);
+                setQty(qty + 1);
+              } else {
+                onAddCart(id, 0, price);
+                setQty(0);
+              }
+            }}
+          >
+            {qty !== 0 ? "Remove" : "Add Cart"}
+          </button>
           <div className="add-qty-container">
-            <button>+</button>
-            <div className="qty">0</div>
-            <button>-</button>
+            <button
+              onClick={() => {
+                if (qty !== 0) {
+                  onAddCart(id, qty - 1, price);
+                  setQty(qty - 1);
+                }
+              }}
+            >
+              -
+            </button>
+            <div className="qty">{qty}</div>
+            <button
+              onClick={() => {
+                if (qty !== quantity) {
+                  onAddCart(id, qty + 1, price);
+                  setQty(qty + 1);
+                }
+              }}
+            >
+              +
+            </button>
           </div>
         </div>
       </div>

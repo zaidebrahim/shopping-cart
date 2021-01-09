@@ -19,6 +19,8 @@
 }
 .product-container .left-container .offer-text {
   padding: 5px;
+  font-weight: 700;
+  color: #363636;
 }
 .product-container .left-container .image-container .product-image {
   width: 100px;
@@ -63,7 +65,7 @@
 .product-container .right-container .bottom-container .add-qty-container .qty {
   padding: 3px;
 }
-.product-container .right-container .bottom-container button {
+button {
   background: #f53152;
   color: white;
   border: none;

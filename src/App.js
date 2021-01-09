@@ -1,7 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
 
-import Shopping from "./pages/shopping.page";
+import Shopping from "./pages/shopping/shopping.page";
 
 function App() {
   return (
