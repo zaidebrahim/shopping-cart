@@ -34,18 +34,24 @@ const Product = (props) => {
       <div className="right-container">
         <div className="brand-name">{brandName}</div>
         <div>{productName}</div>
-        <div>{quantity}</div>
-        <div>MRP {mrp}</div>
+        {quantity !== 0 ? (
+          <div>Quantity: {quantity}</div>
+        ) : (
+          <div>Item out of stock</div>
+        )}
+        <div>MRP: ₹ {mrp}</div>
         <div className="price">₹ {price}</div>
         <div className="bottom-container">
           <button
             onClick={() => {
-              if (qty === 0) {
-                onAddCart(id, qty + 1, price);
-                setQty(qty + 1);
-              } else {
-                onAddCart(id, 0, price);
-                setQty(0);
+              if (quantity !== 0) {
+                if (qty === 0) {
+                  onAddCart(id, qty + 1, price);
+                  setQty(qty + 1);
+                } else {
+                  onAddCart(id, 0, price);
+                  setQty(0);
+                }
               }
             }}
           >

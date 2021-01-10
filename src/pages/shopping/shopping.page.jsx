@@ -29,7 +29,6 @@ const Shopping = (props) => {
         .then(
           (data) => {
             setShopData(data.items);
-            console.log("Printing json Data: ", data);
           },
           (error) => {
             console.log(error);
@@ -41,12 +40,26 @@ const Shopping = (props) => {
   }, []);
 
   useEffect(() => {
-    console.log("CheckedOut: ", checkedOut);
     if (checkedOut) {
+      updateShopQty();
       setCartData(defaultCartData);
       setCheckedOut(false);
     }
   }, [checkedOut]);
+
+  const updateShopQty = () => {
+    const dataToUpdate = shopData.map((shopItem) => {
+      cartData.cart.map((cartItem) => {
+        if (shopItem.id === cartItem.item_id) {
+          shopItem.quantity = shopItem.quantity - cartItem.quantity;
+        }
+        return cartItem;
+      });
+      return shopItem;
+    });
+
+    setShopData(dataToUpdate);
+  };
 
   useEffect(() => {
     if (cartData.cart.length !== 0) {
