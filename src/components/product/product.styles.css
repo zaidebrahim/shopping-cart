@@ -4,6 +4,7 @@
   box-shadow: 2px 2px 12px -8px;
   justify-content: space-around;
   border-radius: 10px;
+  margin-bottom: 10px;
 }
 .product-container .left-container {
   width: 40%;

@@ -1,5 +1,5 @@
 .shopping-container {
-  display: grid;
-  gap: 10px;
+  display: flex;
+  flex-direction: column;
   padding: 10px;
 }
