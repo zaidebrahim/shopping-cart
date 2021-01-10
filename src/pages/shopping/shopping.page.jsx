@@ -5,8 +5,6 @@ import Product from "../../components/product/product.component";
 
 import Snackbar from "../../components/snackbar/snackbar.component";
 
-import items from "../../constants/items.json";
-
 const defaultCartData = {
   price: 0,
   quantity: 0,
@@ -14,33 +12,33 @@ const defaultCartData = {
 };
 
 const Shopping = (props) => {
-  const [shopData, setShopData] = useState(items.items);
+  const [shopData, setShopData] = useState([]);
   const [cartData, setCartData] = useState(defaultCartData);
   const [show, setShow] = useState(false);
   const [checkedOut, setCheckedOut] = useState(false);
 
-  // useEffect(() => {
-  //   fetch("https://run.mocky.io/v3/79f1bd01-267e-42c5-8bea-6c5ba2ffe789")
-  //     .then((res) => {
-  //       console.log(res.data);
-  //       res.json();
-  //     })
-  //     .then(
-  //       (result) => {
-  //         // setShopData(result.items);
-  //         console.log(result);
-  //       },
-  //       // Note: it's important to handle errors here
-  //       // instead of a catch() block so that we don't swallow
-  //       // exceptions from actual bugs in components.
-  //       (error) => {
-  //         // this.setState({
-  //         //   isLoaded: true,
-  //         //   error,
-  //         // });
-  //       }
-  //     );
-  // }, []);
+  useEffect(() => {
+    try {
+      fetch("items.json", {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then(
+          (data) => {
+            setShopData(data.items);
+            console.log("Printing json Data: ", data);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   useEffect(() => {
     console.log("CheckedOut: ", checkedOut);
@@ -108,23 +106,24 @@ const Shopping = (props) => {
   return (
     <div className="shopping-page">
       <div className="shopping-container">
-        {shopData.map((item) => {
-          return (
-            <Product
-              key={item.id}
-              id={item.id}
-              brandName={item.brand_name}
-              productName={item.product_name}
-              quantity={item.quantity}
-              mrp={item.mrp}
-              price={item.price}
-              imageUrl={item.image_url}
-              offerText={item.offer_text}
-              onAddCart={onAddCart}
-              checkedOut={checkedOut}
-            />
-          );
-        })}
+        {shopData.length !== 0 &&
+          shopData.map((item) => {
+            return (
+              <Product
+                key={item.id}
+                id={item.id}
+                brandName={item.brand_name}
+                productName={item.product_name}
+                quantity={item.quantity}
+                mrp={item.mrp}
+                price={item.price}
+                imageUrl={item.image_url}
+                offerText={item.offer_text}
+                onAddCart={onAddCart}
+                checkedOut={checkedOut}
+              />
+            );
+          })}
       </div>
       <Snackbar
         show={show}
